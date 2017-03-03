@@ -28,21 +28,22 @@
   <div id="map"></div>
     <script>
       function initMap() {
-        var address = '<%= @restaurant.address %>';
-        geocoder.geocode( { 'address': address}, function(results, status) {
-          if (status == 'OK') {
-            map.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-                map: map,
-                position: results[0].geometry.location
-            });
-          } else {
-            alert('Geocode was not successful for the following reason: ' + status);
-              }
-            });
+        var geocoder= new google.maps.Geocoder();
+        var address = {lat:<%= @restaurant.latitude %>, lng:<%= @restaurant.longitude%>};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 15,
+          center: new google.maps.LatLng(<%= @restaurant.latitude %>, <%= @restaurant.longitude%>)
+        });
         }
     </script>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=<%="AIzaSyCIgY-Sip4jTSSNzg6X43-VxyIh0QUwmiY"%>&callback=initMap">
+    </script>
 </p>
+
+Lon:<%= @restaurant.latitude %>, lat:<%= @restaurant.longitude %>
+
+
 
 <%= link_to 'Edit', edit_restaurant_path(@restaurant) %> |
 <%= link_to 'Back', restaurants_path %>
